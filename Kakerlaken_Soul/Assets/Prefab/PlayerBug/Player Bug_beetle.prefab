@@ -408,7 +408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bugController: {fileID: 8085035641712155483}
   playerController: {fileID: 4540740889373751444}
-  antForwardDir: {fileID: 6072618478929115385}
+  bugForwardDir: {fileID: 6072618478929115385}
   camForwardDir: {fileID: 2695569313083803710}
   legsPointWhenJump: 1
   legsHorizontalPointWhenJump: 2.3

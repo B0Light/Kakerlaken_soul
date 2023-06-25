@@ -11,7 +11,7 @@ namespace HeneGames.BugController
         [Header("References")]
         [SerializeField] private BugController bugController;
         [SerializeField] private PlayerMovementController playerController;
-        [SerializeField] private Transform antForwardDir;
+        [SerializeField] private Transform bugForwardDir;
         [SerializeField] private Transform camForwardDir;
         [Header("Values")]
         [SerializeField] private float legsPointWhenJump = 0.5f;
@@ -26,7 +26,7 @@ namespace HeneGames.BugController
             }
             else
             {
-                bugController.LookTarget(antForwardDir, 5f);
+                bugController.LookTarget(bugForwardDir, 5f);
             }
 
             //Is grounded delay
