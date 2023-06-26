@@ -22,44 +22,34 @@ namespace HeneGames.BugController
         [SerializeField] private Transform groundCheck;
 
         [Header("Moving values")]
-        [Tooltip("This determines whether the bug's body conforms to the terrain")]
+        
         [SerializeField] private bool groundAlignment = true;
 
-        [Tooltip("See documentation")]
         [SerializeField] private bool moveTwoLegsAtTheSameTime = true;
-
-        [Tooltip("Feet only hit objects of this physics level")]
+ 
         [SerializeField] private LayerMask groundMask;
 
-        [Tooltip("This defines how strongly the bug's body adapts to the terrain")]
         [Range(1f, 10f)]
         [SerializeField] private float groundAlignmentStrenght = 3f;
 
-        [Tooltip("This determines how strongly the legs anticipate which direction the body is going")]
         [Range(0f, 15f)]
         [SerializeField] private float anticipateStepStrenght = 5f;
-
-        [Tooltip("This adjustment determines how high the body is off the ground")]
+        
         [Range(0.01f, 2f)]
         [SerializeField] private float bodyHeight = 1.5f;
 
-        [Tooltip("This value defines how strongly the height of the body is fine-tuned when parts of the legs are higher than the body")]
         [Range(0.01f, 4f)]
         [SerializeField] private float adjustBodyHeight = 1.5f;
 
-        [Tooltip("This determines how high the foot rises when taking a step")]
         [Range(0.5f, 4f)]
         [SerializeField] private float stepHeight = 1f;
 
-        [Tooltip("How far the body must move before taking the next step")]
         [Range(0.01f, 4f)]
         [SerializeField] private float moveTreshold = 0.4f;
 
-        [Tooltip("How many degrees does the body have to rotate before the leg correction is done")]
         [Range(5f, 50f)]
         [SerializeField] private float moveAngleTreshold = 20f;
 
-        [Tooltip("How long does the bug have to be in place before the legs are placed again")]
         [Range(0f, 1f)]
         [SerializeField] private float correctLegWhenSoppedTime = 0.3f;
 

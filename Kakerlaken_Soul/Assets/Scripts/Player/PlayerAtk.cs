@@ -19,11 +19,9 @@ public class PlayerAtk : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            Debug.Log("Atk Input");
-            if(PM.state != PlayerManager.State.atk)
+            if(!(PM.state == PlayerManager.State.atk || PM.state == PlayerManager.State.wait))
             {
                 PM.state = PlayerManager.State.atk;
-                Debug.Log("Do Atk");
                 StartCoroutine("ATKBase");
             }
         }

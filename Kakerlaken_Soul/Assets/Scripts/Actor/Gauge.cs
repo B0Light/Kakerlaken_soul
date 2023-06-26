@@ -44,5 +44,4 @@ public class Gauge<T> where T : IComparable<T> {
     public T GetMaxValue() {
         return _maxValue;
     }
-
 }
