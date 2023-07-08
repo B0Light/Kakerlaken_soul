@@ -5,19 +5,23 @@ using UnityEngine.UI;
 
 public class WorldspaceHealthBar : MonoBehaviour
 {
-    public Health Health;
-    public Image HealthBarImage;
-    public Transform HealthBarPivot;
+    public Health health;
+    public Image healthBarImage;
+    public Transform healthBarPivot;
 
-    public bool HideFullHealthBar = true;
+    public bool hideFullHealthBar = true;
 
+    private void Awake()
+    {
+        health = GetComponent<Health>();
+    }
     void Update()
     {
-        HealthBarImage.fillAmount = Health.health.Value / Health.health.GetMaxValue();
+        healthBarImage.fillAmount = health.health.Value / health.health.MaxValue;
 
-        HealthBarPivot.LookAt(Camera.main.transform.position);
+        healthBarPivot.LookAt(Camera.main.transform.position);
 
-        if (HideFullHealthBar)
-            HealthBarPivot.gameObject.SetActive(HealthBarImage.fillAmount != 1);
+        if (hideFullHealthBar)
+            healthBarPivot.gameObject.SetActive(healthBarImage.fillAmount != 1);
     }
 }

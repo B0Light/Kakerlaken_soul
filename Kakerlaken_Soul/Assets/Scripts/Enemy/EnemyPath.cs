@@ -9,14 +9,16 @@ public class EnemyPath : MonoBehaviour
 {
     public NavMeshAgent navMesh = null;
     EnemyManager EM;
+    EnemyAtk enemyAtk;
 
     private int currNode = 0;
-    [SerializeField] private float fov;
+    [SerializeField, Range(1f,10f)] private float fov;
     [SerializeField] private LayerMask targetLayer;
 
     private void Awake()
     {
         EM = GetComponent<EnemyManager>();
+        enemyAtk = GetComponent<EnemyAtk>();
         navMesh = GetComponent<NavMeshAgent>();
     }
     public void TraceNavSetting()
@@ -51,19 +53,21 @@ public class EnemyPath : MonoBehaviour
         if(EM.target != null)
         {
             Move(EM.target.transform);
+            AtkReady();
         }
         else
         {
-            if (navMesh.velocity == Vector3.zero)
-            {
-                MoveToNextNode();
-            }
-            else
-            {
-                Sight();
-            }
+            TraceNavSetting();
         }
         
+        if (navMesh.velocity == Vector3.zero)
+        {
+            MoveToNextNode();
+        }
+        else
+        {
+            Sight();
+        }
     }
 
     void MoveToNextNode()
@@ -74,8 +78,8 @@ public class EnemyPath : MonoBehaviour
 
         if (navMesh.velocity == Vector3.zero)
         {
-            if (currNode == EM.enemyPath.Length) currNode = 0;
-            Move(EM.enemyPath[currNode++]);
+            currNode = Random.Range(0, EM.enemyPath.Length);
+            Move(EM.enemyPath[currNode]);
         }
     }
 
@@ -86,16 +90,18 @@ public class EnemyPath : MonoBehaviour
 
         if (cols.Length > 0) // Follow Enmey
         {
-            if (EM.target == null)
-                EM.target = cols[0].gameObject; 
+            Debug.Log("FIND Target");
+            EM.target = cols[0].gameObject; 
         } 
         else                // GoBack Node
         {
             if (EM.target != null)
+            {
                 EM.target = null;
+                MoveToNextNode();
+            }
         }
     }
-
 
     void Move(Transform destination)
     {
@@ -104,5 +110,21 @@ public class EnemyPath : MonoBehaviour
 
         navMesh.SetDestination(destination.position);
         gameObject.transform.LookAt(destination.position);
+    }
+
+    void AtkReady()
+    {
+        if (EM.isDead) return;
+        Collider[] cols = Physics.OverlapSphere(transform.position, 1f, targetLayer);
+        if (cols.Length > 0) // Atk Ready
+        {
+            AttackNavSetting();
+            enemyAtk.Attack_Base();
+        }
+        else                // GoBack
+        {
+            TraceNavSetting();
+        }
+
     }
 }

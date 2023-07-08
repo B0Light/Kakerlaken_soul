@@ -5,30 +5,40 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    //PlayerManager
-
     public enum State
     {
         idle,
         move,
+        sprint,
         atk,
         dmg,
         dead,
-        wait
+        wait,
+        Cine
     }
     public State state;
+
+    protected static PlayerManager s_Instance;
+    public static PlayerManager instance { get { return s_Instance; } }
+
     public float moveSpd;
+    public bool isDead = false;
+    public bool setZero = false;
     [SerializeField] private Animator _animator;
-    
-    // Start is called before the first frame update
-    void Start()
+    public AbilityBase[] m_Abilities;
+
+
+    private void Awake()
     {
-        _animator = GetComponentInChildren<Animator>();   
+        _animator = GetComponentInChildren<Animator>();
+        m_Abilities = GetComponents<AbilityBase>();
+        s_Instance = this;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
+        if(setZero) return ; 
         TakeAction();
     }
 
@@ -38,10 +48,16 @@ public class PlayerManager : MonoBehaviour
 
         switch (state)
         {
+            case State.Cine:
+                _animator.SetFloat("moveSpd", 0f);
+                break;
             case State.idle:
                 _animator.SetFloat("moveSpd", 0f);
                 break;
             case State.move:
+                _animator.SetFloat("moveSpd", moveSpd);
+                break;
+            case State.sprint:
                 _animator.SetFloat("moveSpd", moveSpd);
                 break;
             case State.atk:
@@ -50,9 +66,11 @@ public class PlayerManager : MonoBehaviour
                 break;
             case State.dmg:
                 _animator.SetTrigger("hit");
+                state = State.wait;
                 break;
             case State.dead:
                 _animator.SetTrigger("die");
+                setZero = true;
                 break;
         }
     }

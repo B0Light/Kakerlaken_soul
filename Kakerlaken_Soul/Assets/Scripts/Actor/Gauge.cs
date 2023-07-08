@@ -17,6 +17,11 @@ public class Gauge<T> where T : IComparable<T> {
         }
     }
 
+    public T MaxValue {
+        get { return _maxValue; }
+        set { _maxValue = value; _curValue = _maxValue; }
+    }
+
     public Gauge()
     {
         _maxValue = default(T);
@@ -41,7 +46,5 @@ public class Gauge<T> where T : IComparable<T> {
         return _curValue.ToString() + " / " + _maxValue.ToString();
     }
 
-    public T GetMaxValue() {
-        return _maxValue;
-    }
+    
 }
